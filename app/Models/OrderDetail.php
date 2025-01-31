@@ -1,37 +1,29 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Order; // ✅ Import Order
 
 class OrderDetail extends Model
 {
-    //
     use HasFactory;
-    protected $primaryKey = 'OrderDetailID';
 
-    // กำหนดคอลัมน์ที่สามารถกรอกข้อมูลได้
+    protected $table = 'order_details';
+    protected $primaryKey = 'OrderDetailID';
+    public $incrementing = true;
+    public $timestamps = false;
+
     protected $fillable = [
         'OrderID',
         'ProductID',
         'Quantity',
-        'UnitPrice',
+        'Price',
     ];
 
-    /**
-     * Get the order that owns the order detail.
-     */
     public function order()
     {
-        return $this->belongsTo(Order::class, 'OrderID', 'OrderID');  // ใช้ OrderID แทน id
-    }
-
-
-    /**
-     * Get the product associated with the order detail.
-     */
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'ProductID', 'ProductID');  // ใช้ ProductID แทน id
+        return $this->belongsTo(Order::class, 'OrderID');
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
 namespace Database\Factories;
-
+//สร้างข้อมูลจำลองสำหรับตาราง products
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Product;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>

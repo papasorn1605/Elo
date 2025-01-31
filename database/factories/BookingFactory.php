@@ -5,7 +5,7 @@ use App\Models\Booking;
 use App\Models\Room;
 use App\Models\Guest;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+//สร้างข้อมูลสุ่มสำหรับตาราง bookings
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Booking>
  */

@@ -59,12 +59,6 @@ export default function Index({ orders, query }) {
                                 OrderID
                             </th>
                             <th className="border px-6 py-3 text-left text-sm font-medium text-gray-600">
-                                ProductID
-                            </th>
-                            <th className="border px-6 py-3 text-left text-sm font-medium text-gray-600">
-                                Product Name
-                            </th>
-                            <th className="border px-6 py-3 text-left text-sm font-medium text-gray-600">
                                 Customer Name
                             </th>
                             <th className="border px-6 py-3 text-left text-sm font-medium text-gray-600">
@@ -84,14 +78,10 @@ export default function Index({ orders, query }) {
                                 <td className="border px-6 py-4 text-sm text-gray-800">
                                     {order.OrderID}
                                 </td>
+                                {/* Access ProductID from orderDetails -> product */}
+                                {/* Access CustomerName from customer */}
                                 <td className="border px-6 py-4 text-sm text-gray-800">
-                                    {order.ProductID}
-                                </td>
-                                <td className="border px-6 py-4 text-sm text-gray-800">
-                                    {order.Productname}
-                                </td>
-                                <td className="border px-6 py-4 text-sm text-gray-800">
-                                    {order.CustomerName}
+                                    {order.customer?.CustomerName}
                                 </td>
                                 <td className="border px-6 py-4 text-sm text-gray-800">
                                     {order.TotalAmount}
