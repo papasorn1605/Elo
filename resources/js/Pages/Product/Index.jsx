@@ -1,28 +1,46 @@
 import { Inertia } from '@inertiajs/inertia';
+import { format } from 'date-fns';
 import { useState } from 'react';
 
 export default function Index({ orders, query }) {
     const [search, setSearch] = useState(query || '');
 
+    // ฟังก์ชันลบข้อมูล
+    const handleDelete = (OrderID) => {
+        if (confirm('Are you sure you want to delete this order?')) {
+            Inertia.delete(route('order.destroy', OrderID)); // ใช้ route ตามที่กำหนดใน Laravel
+        }
+    };
+
     // ฟังก์ชันค้นหา
     const handleSearch = (e) => {
         e.preventDefault();
         if (search.trim()) {
-            Inertia.get(route('products.index'), { search });
+            Inertia.get(route('orders.index'), { search });
         }
     };
 
     // ฟังก์ชันรีเฟรชการค้นหา
     const handleRefresh = () => {
         setSearch('');
-        Inertia.get(route('products.index'), { search: '' });
+        Inertia.get(route('orders.index'), { search: '' });
     };
 
     return (
         <div className="container mx-auto p-8">
             <h1 className="mb-8 text-4xl font-extrabold text-gray-800">
-                Order Details
+                Order
             </h1>
+
+            {/* ปุ่มเชื่อมโยงไปยังหน้าสร้างคำสั่งซื้อ */}
+            <div className="mb-8 flex items-center space-x-4">
+                <button
+                    onClick={() => Inertia.get(route('orders.create'))}
+                    className="rounded-lg bg-gray-500 px-2 py-3 text-white hover:bg-gray-700"
+                >
+                    Add New Order
+                </button>
+            </div>
 
             {/* ฟอร์มค้นหา */}
             <div className="mb-8 flex items-center space-x-4 rounded-lg bg-white p-4 shadow-lg">
@@ -30,7 +48,7 @@ export default function Index({ orders, query }) {
                     type="text"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search by OrderID, ProductID, Customer Name..."
+                    placeholder="Search by Customer Name "
                     className="flex-1 rounded-l-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
                 />
                 <button
@@ -67,6 +85,9 @@ export default function Index({ orders, query }) {
                             <th className="border px-6 py-3 text-left text-sm font-medium text-gray-600">
                                 Order Date
                             </th>
+                            <th className="border px-6 py-3 text-left text-sm font-medium text-gray-600">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,8 +99,7 @@ export default function Index({ orders, query }) {
                                 <td className="border px-6 py-4 text-sm text-gray-800">
                                     {order.OrderID}
                                 </td>
-                                {/* Access ProductID from orderDetails -> product */}
-                                {/* Access CustomerName from customer */}
+                                {/* Access Customer Name from customer */}
                                 <td className="border px-6 py-4 text-sm text-gray-800">
                                     {order.customer?.CustomerName}
                                 </td>
@@ -87,7 +107,36 @@ export default function Index({ orders, query }) {
                                     {order.TotalAmount}
                                 </td>
                                 <td className="border px-6 py-4 text-sm text-gray-800">
-                                    {order.OrderDate}
+                                    {format(
+                                        new Date(order.OrderDate),
+                                        'yyyy-MM-dd HH:mm:ss',
+                                    )}
+                                </td>
+                                <td className="border px-6 py-4 text-sm text-gray-800">
+                                    {/* ปุ่มแก้ไข */}
+                                    <button
+                                        onClick={() =>
+                                            Inertia.get(
+                                                route(
+                                                    'orders.edit',
+                                                    order.OrderID,
+                                                ),
+                                            )
+                                        }
+                                        className="mr-2 rounded bg-blue-400 px-3 py-1 text-white hover:bg-blue-600"
+                                    >
+                                        ✏️ Edit
+                                    </button>
+
+                                    {/* ปุ่มลบ */}
+                                    <button
+                                        onClick={() =>
+                                            handleDelete(order.OrderID)
+                                        }
+                                        className="rounded bg-red-400 px-3 py-1 text-white hover:bg-red-600"
+                                    >
+                                        🗑 Delete
+                                    </button>
                                 </td>
                             </tr>
                         ))}

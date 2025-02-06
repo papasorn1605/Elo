@@ -12,10 +12,10 @@ class Product extends Model
     use HasFactory;
 
     // กำหนดชื่อตารางในฐานข้อมูล
-    protected $table = 'orders';
+    protected $table = 'products';
 
     // กำหนด Primary Key
-    protected $primaryKey = 'OrderID';
+    protected $primaryKey = 'ProductID';
 
     // ระบุว่า Primary Key เป็น Auto-Increment หรือไม่
     public $incrementing = true;
@@ -26,10 +26,10 @@ class Product extends Model
 
     // ระบุฟิลด์ที่สามารถบันทึกได้
     protected $fillable = [
-        'OrderID',
-        'TotalAmount',
-        'OrderDate',
-        'CustomerID',
+        'ProductID',
+        'ProductName',
+        'Stock',
+        'UnitPrice',
     ];
 
     // 🔹 ความสัมพันธ์กับ Customer
@@ -41,6 +41,6 @@ class Product extends Model
     // 🔹 ความสัมพันธ์กับ OrderDetail
     public function orderDetails()
     {
-        return $this->hasMany(OrderDetail::class, 'OrderID');
+        return $this->hasMany(OrderDetail::class, 'ProductID');
     }
 }

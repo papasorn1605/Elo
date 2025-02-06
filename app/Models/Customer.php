@@ -19,4 +19,9 @@ class Customer extends Model
         'Email',
         'Address',
     ];
+        // กำหนดความสัมพันธ์ว่า Customer มีหลาย Order
+        public function orders()
+        {
+            return $this->hasMany(Order::class, 'CustomerID');
+        }
 }

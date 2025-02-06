@@ -21,6 +21,10 @@ class OrderDetail extends Model
         'Quantity',
         'Price',
     ];
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'ProductID'); // ชี้ไปที่ Product โดยใช้ ProductID
+    }
 
     public function order()
     {
